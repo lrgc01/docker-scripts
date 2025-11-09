@@ -13,10 +13,10 @@ Usage() {
 }
 
 SCRIPTDIR=$(dirname $0)
-BASEDIR="$SCRIPTDIR/.."
 SKIPLIST="_none_"
 
 cd "$SCRIPTDIR"
+BASEDIR="$(pwd)/.."
 
 # The generic and then local definition
 for RCFILE in "../scripts/generic.rc"
