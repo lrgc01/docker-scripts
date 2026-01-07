@@ -8,6 +8,7 @@ Usage() {
    -t <target/destination repository prefix>
    -l <build list> (space separated and quoted)
    -s <skip list> (space separated and quoted)
+   -k (keep origin repo)
    -d (Dry Run - no arg)
 "
 }
@@ -43,6 +44,9 @@ do
       ;;
       -[sS]) SKIPLIST="$2"
           shift 2
+      ;;
+      -[kK]) KEEPORIG=1
+          shift 1
       ;;
       --[dD][rR][yY]-[rR][uU][nN]|-[dD]) 
           DRYRUN='echo [DryRun] Would run:'
@@ -97,10 +101,15 @@ do
     echo "----------------------------------------------"
     echo "   -----   Cleaning for $bld   ------  "
     echo "----------------------------------------------"
+    if [ "$KEEPORIG" = "1" ]; then
+       CLEANIMGS="${TARGET}${_TAG}:${ARCH}"
+    else
+       CLEANIMGS="${ORIGIN}${_TAG}:${ARCH} ${TARGET}${_TAG}:${ARCH}"
+    fi
     ( cd $bld
        CURDIR=$(pwd)
        _TAG="$(basename $CURDIR | sed -e 's/[0-9][0-9][0-9]-//')"
-       $DRYRUN $_SUDO docker image rm ${ORIGIN}${_TAG}:${ARCH} ${TARGET}${_TAG}:${ARCH}
+       $DRYRUN $_SUDO docker image rm ${CLEANIMGS}
     )
   fi
 done
