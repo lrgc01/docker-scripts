@@ -101,14 +101,14 @@ do
     echo "----------------------------------------------"
     echo "   -----   Cleaning for $bld   ------  "
     echo "----------------------------------------------"
-    if [ "$KEEPORIG" = "1" ]; then
-       CLEANIMGS="${TARGET}${_TAG}:${ARCH}"
-    else
-       CLEANIMGS="${ORIGIN}${_TAG}:${ARCH} ${TARGET}${_TAG}:${ARCH}"
-    fi
     ( cd $bld
        CURDIR=$(pwd)
        _TAG="$(basename $CURDIR | sed -e 's/[0-9][0-9][0-9]-//')"
+       if [ "$KEEPORIG" = "1" ]; then
+          CLEANIMGS="${TARGET}${_TAG}:${ARCH}"
+       else
+          CLEANIMGS="${ORIGIN}${_TAG}:${ARCH} ${TARGET}${_TAG}:${ARCH}"
+       fi
        $DRYRUN $_SUDO docker image rm ${CLEANIMGS}
     )
   fi
