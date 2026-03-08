@@ -33,10 +33,10 @@ done
 while [ $# -gt 0 ]
 do
    case $1 in
-      -[oO]) ORIGIN="$2"
+      -[oO]) ORIGIN="${2%/}/"
           shift 2
       ;;
-      -[tT]) TARGET="$2"
+      -[tT]) TARGET="${2%/}/"
           shift 2
       ;;
       -[lL]) BUILDLIST="$2"
