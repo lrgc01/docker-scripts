@@ -17,7 +17,7 @@ SCRIPTDIR=$(dirname $0)
 SKIPLIST="_none_"
 
 cd "$SCRIPTDIR"
-BASEDIR="$(pwd)/.."
+BASEDIR="$(cd .. ; pwd)"
 
 # The generic and then local definition
 for RCFILE in "../scripts/generic.rc"
@@ -78,7 +78,7 @@ do
     echo "----------------------------------------------"
     echo "   -----   Mirroring $bld   ------  "
     echo "----------------------------------------------"
-    ( cd $bld
+    ( cd $BASEDIR/$bld
     CURDIR=$(pwd)
     _TAG="$(basename $CURDIR | sed -e 's/[0-9][0-9][0-9]-//')"
        $DRYRUN $_SUDO docker pull ${ORIGIN}${_TAG}:${ARCH} && \
@@ -101,7 +101,7 @@ do
     echo "----------------------------------------------"
     echo "   -----   Cleaning for $bld   ------  "
     echo "----------------------------------------------"
-    ( cd $bld
+    ( cd $BASEDIR/$bld
        CURDIR=$(pwd)
        _TAG="$(basename $CURDIR | sed -e 's/[0-9][0-9][0-9]-//')"
        if [ "$KEEPORIG" = "1" ]; then
