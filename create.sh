@@ -7,6 +7,7 @@ Usage() {
         echo "	-c (clean env (Dockerfile,etc))"
         echo "	-f <filename> (use alternate name for Dockerfile)"
         echo "	-m - run manifest ONLY"
+        echo "	-np - donnot push image to hub"
 	echo "	-t <img_tag> (tag image as)"
 	echo "	-h this help"
 	echo "	--force - force build even if it is up to date"
@@ -20,6 +21,7 @@ _FORCE=0
 _CLEAN_ENV=0
 _ENV_ONLY=0
 _RUN_MANIFEST=0
+_PUSH=1
 
 WORKDIR="`dirname $0`"
 cd "$WORKDIR"
@@ -56,6 +58,11 @@ do
           _RUN_MANIFEST="1"
 	  _CLEAN_ENV="1"
           DOCKERFILE="Dockerfile"
+          shift 1
+      ;;
+      --[nN][oO]-[pP][uU][sS][Hh]|-np)
+          _PUSH=0
+          _RUN_MANIFEST=0
           shift 1
       ;;
       --[cC][lL][eE][aA][nN]|-[cC]) 
@@ -146,7 +153,7 @@ if [ "$_FORCE" -eq 1 -o "$_RUN_MANIFEST" -ne 1 -a "$_CLEAN_ENV" -ne 1 -a "$_ENV_
    fi
 fi
 
-if [ "$_RUN_MANIFEST" = "1" ]; then
+if [ "$_RUN_MANIFEST" = "1" -a "$_PUSH" != "0" ]; then
         $DRYRUN $SUDO docker push ${FOLDER}${_TAG}:${ARCH}
         $DRYRUN $SUDO docker manifest rm ${FOLDER}${_TAG}:latest 
         $DRYRUN $SUDO docker manifest create ${FOLDER}${_TAG}:latest --amend ${FOLDER}${_TAG}:arm64 --amend ${FOLDER}${_TAG}:amd64 --amend ${FOLDER}${_TAG}:armhf
