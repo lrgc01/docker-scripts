@@ -64,7 +64,8 @@ CheckImgDependency() {
 }
 
 
-BASE_FOLDER=${BASE_FOLDER:-"lrgc01/"}
+#BASE_FOLDER=${BASE_FOLDER:-"lrgc01/"}
+BASE_FOLDER=${BASE_FOLDER:-"registry:5000/"}
 
 BASEPATH=/usr/local/bin:/usr/local/sbin:/opt/maven/bin:/usr/bin:/usr/sbin:/bin:/sbin
 
@@ -88,7 +89,7 @@ JENKINS_KEY_FILE="Jenkins_System_Key"
 PYHOST_FILE="python.host"
 PYWRAP_FILE="py_wrap.sh"
 NODE_HOST_FILE="nodejs.host"
-NODE_WRAP_FILE="nodejs_warp.sh"
+NODE_WRAP_FILE="nodejs_wrap.sh"
 
 # To python image
 PY_STARTFILE="python.start"
@@ -103,7 +104,7 @@ BIND_UID="102"
 
 MACHINE=$(uname -m)  # aarch64, x86_64, etc
 ARCH=$(dpkg --print-architecture)  # amd64, arm64, etc
-FROMIMG="lrgc01/debian-ssh:${ARCH}"
+FROMIMG="${BASE_FOLDER}debian-ssh:${ARCH}"
 #FROMIMG="lrgc01/ssh-stable_slim"
 
 STARTFILE="bootstrap.container.sh"

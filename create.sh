@@ -82,7 +82,7 @@ do
           shift 1
       ;;
       --[dD][rR][yY]-[rR][uU][nN]|-[dD]) 
-          DRYRUN='echo [DryRun] Would run:'
+          DRYRUN="echo [DryRun]:"
           _MINUSD="-d"
           shift 1
       ;;
